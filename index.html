@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>下载时间计算器</title>
     <script>
+        let completionTime; // 用于存储预计完成时间
+
         function calculateDownloadTime() {
             // 获取输入值
             const fileSizeGB = parseFloat(document.getElementById('fileSize').value);
@@ -18,13 +20,33 @@
                 const timeHours = timeSeconds / 3600; // 将秒转换为小时
 
                 // 计算完成时间
-                const completionTime = new Date(startTime.getTime() + timeSeconds * 1000);
+                completionTime = new Date(startTime.getTime() + timeSeconds * 1000);
 
                 document.getElementById('result').innerText = `下载所需时间: ${timeHours.toFixed(2)} 小时`;
                 document.getElementById('completionTime').innerText = `预计完成时间: ${completionTime.toLocaleString()}`;
             } else {
                 document.getElementById('result').innerText = '请输入有效的数字';
                 document.getElementById('completionTime').innerText = '';
+            }
+        }
+
+        function confirmStartTime() {
+            if (completionTime) {
+                const userConfirmed = confirm(`您选择的开始时间是 ${document.getElementById('startTime').value}。\n确认选择吗？`);
+                if (userConfirmed) {
+                    // 设置一个定时器，在预计完成时间时弹出提醒
+                    const now = new Date();
+                    const timeUntilCompletion = completionTime - now;
+                    if (timeUntilCompletion > 0) {
+                        setTimeout(() => {
+                            alert(`下载预计完成时间: ${completionTime.toLocaleString()}`);
+                        }, timeUntilCompletion);
+                    } else {
+                        alert('下载时间已过，请检查开始时间。');
+                    }
+                }
+            } else {
+                alert('请先计算下载时间。');
             }
         }
     </script>
@@ -41,6 +63,7 @@
     <input type="datetime-local" id="startTime" required>
     <br>
     <button onclick="calculateDownloadTime()">计算下载时间</button>
+    <button onclick="confirmStartTime()">确认开始时间</button>
     <p id="result"></p>
     <p id="completionTime"></p>
 </body>
