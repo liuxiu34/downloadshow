@@ -21,11 +21,12 @@
                 // 计算完成时间
                 completionTime = new Date(startTime.getTime() + timeSeconds * 1000);
 
-                // 将时间转换为小时和分钟
+                // 将时间转换为小时、分钟和秒
                 const hours = Math.floor(timeSeconds / 3600);
                 const minutes = Math.floor((timeSeconds % 3600) / 60);
+                const seconds = Math.floor(timeSeconds % 60);
 
-                document.getElementById('result').innerText = `下载所需时间: ${hours} 小时 ${minutes} 分钟`;
+                document.getElementById('result').innerText = `下载所需时间: ${hours} 小时 ${minutes} 分钟 ${seconds} 秒`;
                 document.getElementById('completionTime').innerText = `预计完成时间: ${completionTime.toLocaleString()}`;
             } else {
                 document.getElementById('result').innerText = '请输入有效的数字';
