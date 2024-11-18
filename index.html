@@ -40,7 +40,7 @@
                     const timeUntilCompletion = completionTime - now;
                     if (timeUntilCompletion > 0) {
                         setTimeout(() => {
-                            alert(`下载预计完成时间: ${completionTime.toLocaleString()}`);
+                            alert(`下载完成时间: ${completionTime.toLocaleString()} \n请检查是否下载完成`);
                         }, timeUntilCompletion);
                     } else {
                         alert('下载时间已过，请检查开始时间。');
