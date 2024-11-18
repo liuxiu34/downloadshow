@@ -13,16 +13,19 @@
             const downloadSpeedMB = parseFloat(document.getElementById('downloadSpeed').value);
             const startTime = new Date(document.getElementById('startTime').value);
 
-            // 计算下载时间（小时）
+            // 计算下载时间（秒）
             if (!isNaN(fileSizeGB) && !isNaN(downloadSpeedMB) && downloadSpeedMB > 0) {
                 const fileSizeMB = fileSizeGB * 1024; // 将GB转换为MB
                 const timeSeconds = fileSizeMB / downloadSpeedMB; // 计算时间（秒）
-                const timeHours = timeSeconds / 3600; // 将秒转换为小时
 
                 // 计算完成时间
                 completionTime = new Date(startTime.getTime() + timeSeconds * 1000);
 
-                document.getElementById('result').innerText = `下载所需时间: ${timeHours.toFixed(2)} 小时`;
+                // 将时间转换为小时和分钟
+                const hours = Math.floor(timeSeconds / 3600);
+                const minutes = Math.floor((timeSeconds % 3600) / 60);
+
+                document.getElementById('result').innerText = `下载所需时间: ${hours} 小时 ${minutes} 分钟`;
                 document.getElementById('completionTime').innerText = `预计完成时间: ${completionTime.toLocaleString()}`;
             } else {
                 document.getElementById('result').innerText = '请输入有效的数字';
@@ -40,7 +43,7 @@
                     const timeUntilCompletion = completionTime - now;
                     if (timeUntilCompletion > 0) {
                         setTimeout(() => {
-                            alert(`下载完成时间: ${completionTime.toLocaleString()} \n请检查是否下载完成`);
+                            alert(`下载预计完成时间: ${completionTime.toLocaleString()}`);
                         }, timeUntilCompletion);
                     } else {
                         alert('下载时间已过，请检查开始时间。');
