@@ -32,7 +32,8 @@
 
         function confirmStartTime() {
             if (completionTime) {
-                const userConfirmed = confirm(`您选择的开始时间是 ${document.getElementById('startTime').value}。\n确认选择吗？`);
+                const startTimeValue = document.getElementById('startTime').value.replace('T', ' '); // 替换T为空间
+                const userConfirmed = confirm(`您选择的开始时间是 ${startTimeValue}。\n确认选择吗？`);
                 if (userConfirmed) {
                     // 设置一个定时器，在预计完成时间时弹出提醒
                     const now = new Date();
