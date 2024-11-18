@@ -9,15 +9,22 @@
             // 获取输入值
             const fileSizeGB = parseFloat(document.getElementById('fileSize').value);
             const downloadSpeedMB = parseFloat(document.getElementById('downloadSpeed').value);
+            const startTime = new Date(document.getElementById('startTime').value);
 
             // 计算下载时间（小时）
             if (!isNaN(fileSizeGB) && !isNaN(downloadSpeedMB) && downloadSpeedMB > 0) {
                 const fileSizeMB = fileSizeGB * 1024; // 将GB转换为MB
                 const timeSeconds = fileSizeMB / downloadSpeedMB; // 计算时间（秒）
                 const timeHours = timeSeconds / 3600; // 将秒转换为小时
+
+                // 计算完成时间
+                const completionTime = new Date(startTime.getTime() + timeSeconds * 1000);
+
                 document.getElementById('result').innerText = `下载所需时间: ${timeHours.toFixed(2)} 小时`;
+                document.getElementById('completionTime').innerText = `预计完成时间: ${completionTime.toLocaleString()}`;
             } else {
                 document.getElementById('result').innerText = '请输入有效的数字';
+                document.getElementById('completionTime').innerText = '';
             }
         }
     </script>
@@ -30,7 +37,11 @@
     <label for="downloadSpeed">下载速率 (MB/s):</label>
     <input type="number" id="downloadSpeed" step="0.01" required>
     <br>
+    <label for="startTime">开始下载时间:</label>
+    <input type="datetime-local" id="startTime" required>
+    <br>
     <button onclick="calculateDownloadTime()">计算下载时间</button>
     <p id="result"></p>
+    <p id="completionTime"></p>
 </body>
 </html>
